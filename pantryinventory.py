@@ -13,9 +13,7 @@ def findItem(allowNew):
     totals = json.loads(totalsJson)
 
     validLow = 0 if allowNew else 1
-    validHigh = len(totals)
-    print str(validLow) + '->' + str(validHigh)
-    
+    validHigh = len(totals)    
 
     valid = False
     while not valid:
@@ -51,7 +49,7 @@ def showInventory():
 
 
 def printInventory(totals):
-    print 
+    print
     print 'Current Inventory:'
     for item in totals:
         print '   ' + item['name'] + ': ' + str(item['total'])
@@ -70,6 +68,9 @@ def adjustInventory(name, qty):
     for item in totals:
         if item['name'] == name:
             total = item['total'] + qty
+            if total < 0:
+                total = 0
+                qty = item['total']
             item['total'] = total
             newItem = False
     if newItem:
@@ -116,6 +117,7 @@ def removeItem():
 def menu():
     option = -1
     while option != 0:
+        print '-- Main Menu --'
         print '1 - Add Item to inventory'
         print '2 - Remove Item from inventory'
         print '3 - Display current inventory'
@@ -132,9 +134,11 @@ def menu():
             print 'Bye'
         else:
             print 'Enter 0,1,2,3'
+            input('Press <enter> to continue')
 
         print
         print
+
 
 if __name__ == '__main__': #Calling from commandline
     menu()
